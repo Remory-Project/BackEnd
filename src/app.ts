@@ -5,4 +5,4 @@ import { routes } from './http/route';
 
 export const app = fastify();
 
-app.register(routes); // registra as rotas da aplicação-
+app.register(routes); // registra as rotas da aplicação
