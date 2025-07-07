@@ -1,8 +1,19 @@
+import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { prisma } from "../lib/prisma";
 
+const prisma = new PrismaClient();
 
 export async function listTasks(request: FastifyRequest, reply: FastifyReply) {
-    const tasks = await prisma.task.findMany();
-    return reply.status(200).send(tasks);    
+    try {
+        const tasks = await prisma.task.findMany();
+
+        console.log("Tarefas encontradas no banco:");
+        console.table(tasks); // Mostra as tarefas em formato de tabela no console
+
+        return reply.status(200).send(tasks);
+
+    } catch (error) {
+        console.error("Erro ao listar tarefas:", error);
+        return reply.status(500).send({ message: "Erro interno do servidor." });
+    }
 }

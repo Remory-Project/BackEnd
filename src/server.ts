@@ -1,15 +1,10 @@
-// responsável por iniciar o servidor HTTP
-
 import { app } from './app';
-import { env } from './env';
 
+app.listen({ port: 3333 }, (err, address) => {
+    if (err) {
+        console.error("Erro ao iniciar o servidor:", err);
+        process.exit(1);
+    }
 
-app.listen({
-    host: '0.0.0.0',
-    port: env.PORT,
-}).then(() => {
-    console.log(`Server HTTP está rodando em http://localhost:${env.PORT}`)
+    console.log(`Servidor rodando em: ${address}`);
 });
-
-
-// npx tsx watch src/server.ts comando pra rodar o servidor no terminal
