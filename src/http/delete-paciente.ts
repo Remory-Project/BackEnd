@@ -4,8 +4,8 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-export async function deleteTask(request: FastifyRequest, reply: FastifyReply) {
-    // Validação do ID via parâmetros
+export async function deletePaciente(request: FastifyRequest, reply: FastifyReply) {
+
     const paramsSchema = z.object({
         id: z.string().cuid(),
     });
@@ -13,12 +13,11 @@ export async function deleteTask(request: FastifyRequest, reply: FastifyReply) {
     try {
         const { id } = paramsSchema.parse(request.params);
 
-        // Tenta deletar a tarefa
-        await prisma.task.delete({
+        await prisma.paciente.delete({
             where: { id },
         });
 
-        return reply.status(204).send(); // No Content
+        return reply.status(204).send();
 
     } catch (error) {
         if (error instanceof z.ZodError) {
@@ -27,11 +26,6 @@ export async function deleteTask(request: FastifyRequest, reply: FastifyReply) {
                 issues: error.format(),
             });
         }
-
-        // Erro de tentativa de deletar um ID inexistente, por exemplo
-        // if (error.code === "P2025") {
-        //     return reply.status(404).send({ message: "Tarefa não encontrada." });
-        // }
 
         console.error("Erro ao deletar a tarefa:", error);
         return reply.status(500).send({ message: "Erro interno do servidor." });

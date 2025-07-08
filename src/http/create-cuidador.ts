@@ -5,26 +5,26 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 const createTaskSchema = z.object({
-    title: z.string({ required_error: "Título é obrigatório." }),
-    description: z.string().optional(),
-    done: z.boolean().optional(),
+    nome: z.string({ required_error: "Título é obrigatório." }),
+    email: z.string(),
+    password_hash: z.string(),
 });
 
-export async function createTask(request: FastifyRequest, reply: FastifyReply) {
+export async function createCuidador(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const { title, description, done } = createTaskSchema.parse(request.body);
+        const { nome, email, password_hash } = createTaskSchema.parse(request.body);
 
-        const newTask = await prisma.task.create({
+        const novoCuidador = await prisma.cuidador.create({
             data: {
-                title,
-                description,
-                done,
+                nome,
+                email,
+                password_hash,
             },
         });
 
         return reply.status(201).send({
-            message: "Tarefa criada com sucesso.",
-            task: newTask,
+            message: "criado com sucesso.",
+            task: novoCuidador,
         });
 
     } catch (error) {
@@ -35,7 +35,7 @@ export async function createTask(request: FastifyRequest, reply: FastifyReply) {
             });
         }
 
-        console.error("Erro ao criar a tarefa:", error);
+        console.error("Erro ao criar", error);
         return reply.status(500).send({ message: "Erro interno do servidor." });
     }
 }

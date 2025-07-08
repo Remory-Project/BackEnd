@@ -1,19 +1,18 @@
 import { FastifyInstance } from "fastify";
-import { createPaciente } from "./create-paciente";
-import { createTask } from "./create-task";
-import { deleteTask } from "./delete-task";
-import { listTasks } from "./list-tasks";
-import { updateTask } from "./update-task";
+import { createCuidador } from "./create-cuidador";
+import { criarPaciente } from "./create-paciente";
+import { deletePaciente } from "./delete-paciente";
+import { listPaciente } from "./list-paciente";
 
 
 export async function routes(app: FastifyInstance) {
-    app.post("/tasks", createTask);
+    app.post("/criar/cuidador", createCuidador);
+    app.post("/criar/paciente", criarPaciente);
 
-    app.get("/tasks", listTasks);
+    app.get("/lista", listPaciente);
 
-    app.put("/tasks/:id", updateTask);
+    // app.put("/tasks/:id", updateTask);
 
-    app.delete("/tasks/:id", deleteTask);
+    app.delete("/paciente/:id", deletePaciente);
 
-    app.post("/pacientes", createPaciente);
 }

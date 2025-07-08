@@ -3,9 +3,9 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 const prisma = new PrismaClient();
 
-export async function listTasks(request: FastifyRequest, reply: FastifyReply) {
+export async function listPaciente(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const tasks = await prisma.task.findMany();
+        const tasks = await prisma.paciente.findMany();
 
         console.log("Tarefas encontradas no banco:");
         console.table(tasks); // Mostra as tarefas em formato de tabela no console
