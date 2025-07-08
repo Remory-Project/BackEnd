@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function loginCuidador(request: FastifyRequest, reply: FastifyReply) {
     const loginSchema = z.object({
         email: z.string().email(),
-        password: z.string().min(6),
+        password: z.string().min(5),
     });
 
     try {
