@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-export async function deletePaciente(request: FastifyRequest, reply: FastifyReply) {
+export async function deleteRelatorio(request: FastifyRequest, reply: FastifyReply) {
 
     const paramsSchema = z.object({
         id: z.string().cuid(),
@@ -13,7 +13,7 @@ export async function deletePaciente(request: FastifyRequest, reply: FastifyRepl
     try {
         const { id } = paramsSchema.parse(request.params);
 
-        await prisma.paciente.delete({
+        await prisma.relatorio.delete({
             where: { id },
         });
 
