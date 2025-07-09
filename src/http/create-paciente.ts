@@ -7,9 +7,9 @@ const prisma = new PrismaClient();
 export async function criarPaciente(request: FastifyRequest, reply: FastifyReply) {
     const createPacienteBodySchema = z.object({
         nome: z.string(),
-        dataDeNascimento: z.string().datetime(),
+        dataDeNascimento: z.string(),
         telefone: z.string(),
-        sexo: z.enum(['Masculino', 'Feminino', 'Outro']),
+        sexo: z.string(),
         email: z.string().email(),
         estadoCivil: z.string(),
         nomeDaMae: z.string(),
@@ -18,7 +18,7 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
         contatoDeEmergencia: z.string(), 
         endereco: z.string(),
         cep: z.string(),
-        tipoSanguineo: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+        tipoSanguineo: z.string(),
         alergias: z.string(),
         doencaCronica: z.string(),
         medicamentosEmUso: z.string()

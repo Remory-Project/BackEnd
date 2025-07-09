@@ -7,7 +7,7 @@ export async function listPaciente(request: FastifyRequest, reply: FastifyReply)
     try {
         const tasks = await prisma.paciente.findMany();
 
-        console.log("Tarefas encontradas no banco:");
+        console.log("encontrados no banco:");
         console.table(tasks);
 
         return reply.status(200).send(tasks);
