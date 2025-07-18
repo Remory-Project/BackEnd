@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import { verifyJWT } from "./middlewares/verify-jwt";
 
 const prisma = new PrismaClient();
 
 export async function criarPaciente(request: FastifyRequest, reply: FastifyReply) {
+    await verifyJWT(request, reply); // Protege a rota com token JWT
+
     const createPacienteBodySchema = z.object({
         nome: z.string(),
         dataDeNascimento: z.string(),
@@ -15,43 +18,35 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
         nomeDaMae: z.string(),
         nomeDoPai: z.string(),
         nacionalidade: z.string(),
-        contatoDeEmergencia: z.string(), 
+        contatoDeEmergencia: z.string(),
         endereco: z.string(),
         cep: z.string(),
         tipoSanguineo: z.string(),
         alergias: z.string(),
         doencaCronica: z.string(),
-        medicamentosEmUso: z.string()
+        medicamentosEmUso: z.string(),
+        // cuidadorId foi REMOVIDO do schema
     });
 
     try {
         const {
-        nome,
-        dataDeNascimento,
-        telefone,
-        sexo,
-        email,
-        estadoCivil,
-        nomeDaMae,
-        nomeDoPai,
-        nacionalidade,
-        contatoDeEmergencia,
-        endereco,
-        cep,
-        tipoSanguineo,
-        alergias,
-        doencaCronica,
-        medicamentosEmUso
-    } = createPacienteBodySchema.parse(request.body);
-
-
-        // const pacienteComMesmoEmail = await prisma.paciente.findUnique({
-        //     where: { email }
-        // });
-
-        // if (pacienteComMesmoEmail) {
-        //     return reply.status(409).send({ message: "Este pasciente ja esta criado" });
-        // }
+            nome,
+            dataDeNascimento,
+            telefone,
+            sexo,
+            email,
+            estadoCivil,
+            nomeDaMae,
+            nomeDoPai,
+            nacionalidade,
+            contatoDeEmergencia,
+            endereco,
+            cep,
+            tipoSanguineo,
+            alergias,
+            doencaCronica,
+            medicamentosEmUso
+        } = createPacienteBodySchema.parse(request.body);
 
         await prisma.paciente.create({
             data: {
@@ -70,7 +65,8 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
                 tipoSanguineo,
                 alergias,
                 doencaCronica,
-                medicamentosEmUso
+                medicamentosEmUso,
+                cuidadorId: request.user.id // Pega o ID do cuidador logado
             }
         });
 

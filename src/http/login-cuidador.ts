@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
+import jwt from "jsonwebtoken";
 import { z } from "zod";
+import { env } from "../env";
 
 const prisma = new PrismaClient();
 
@@ -21,17 +23,16 @@ export async function loginCuidador(request: FastifyRequest, reply: FastifyReply
             return reply.status(404).send({ message: "E-mail não encontrado." });
         }
 
+        
         if (cuidador.password_hash !== password) {
             return reply.status(401).send({ message: "Senha incorreta." });
         }
 
+        const token = jwt.sign({ sub: cuidador.id }, env.JWT_SECRET, { expiresIn: '1d' });
+
         return reply.status(200).send({
             message: "Login realizado com sucesso.",
-            cuidador: {
-                id: cuidador.id,
-                nome: cuidador.nome,
-                email: cuidador.email,
-            },
+            token,
         });
 
     } catch (error) {

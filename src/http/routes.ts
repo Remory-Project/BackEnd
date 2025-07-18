@@ -7,7 +7,7 @@ import { deletePaciente } from "./delete-paciente";
 import { deleteRelatorio } from "./delete-relatorio";
 import { editPaciente } from "./edit-paciente";
 import { listPaciente } from "./list-paciente";
-import { loginCuidador } from "./login-cudador";
+import { loginCuidador } from "./login-cuidador";
 
 
 export async function routes(app: FastifyInstance) {

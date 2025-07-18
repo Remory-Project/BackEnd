@@ -14,6 +14,7 @@ model Cuidador {
   password_hash String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  pacientes  Paciente[]
 }
 
 model Paciente {
@@ -35,6 +36,8 @@ model Paciente {
   doencaCronica String
   medicamentosEmUso String
   createdAt DateTime @default(now())
+  cuidadorId String
+  cuidador Cuidador @relation(fields: [cuidadorId], references: [id])
 }
 
 model Relatorio {

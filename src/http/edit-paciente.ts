@@ -1,52 +1,54 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import { verifyJWT } from "./middlewares/verify-jwt";
 
 const prisma = new PrismaClient();
 
 export async function editPaciente(request: FastifyRequest, reply: FastifyReply) {
+    await verifyJWT(request, reply); // Protege a rota com o token JWT
+
     const paramsSchema = z.object({
-        id: z.string().cuid()
+        id: z.string().uuid(), // ID do paciente a ser editado
     });
 
     const bodySchema = z.object({
-        nome: z.string().optional(),
-        dataDeNascimento: z.string().optional(),
-        telefone: z.string().optional(),
-        sexo: z.enum(['Masculino', 'Feminino', 'Outro']).optional(),
-        email: z.string().email().optional(),
-        estadoCivil: z.string().optional(),
-        nomeDaMae: z.string().optional(),
-        nomeDoPai: z.string().optional(),
-        nacionalidade: z.string().optional(),
-        contatoDeEmergencia: z.string().optional(),
-        endereco: z.string().optional(),
-        cep: z.string().optional(),
-        tipoSanguineo: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional(),
-        alergias: z.string().optional(),
-        doencaCronica: z.string().optional(),
-        medicamentosEmUso: z.string().optional()
+        nome: z.string().min(1),
+        dataDeNascimento: z.string().min(1),
+        sexo: z.string().min(1),
+        telefone: z.string().min(1),
     });
-    const { id } = paramsSchema.parse(request.params);
-    const data = bodySchema.parse(request.body);
 
-    if (Object.keys(data).length === 0) {
-        return reply.status(400).send({ message: "Nenhum dado fornecido para atualização." });
-    }
+    const { id } = paramsSchema.parse(request.params);
+    const { nome, dataDeNascimento, sexo, telefone } = bodySchema.parse(request.body);
 
     try {
-        const pacienteAtualizado = await prisma.paciente.update({
-            where: { id: id },
-            data: data,
+        const paciente = await prisma.paciente.findUnique({
+            where: { id },
         });
-        
-        return reply.status(200).send(pacienteAtualizado);
 
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            return reply.status(400).send({ message: "Dados inválidos.", issues: error.format() });
+        if (!paciente) {
+            return reply.status(404).send({ message: "Paciente não encontrado." });
         }
-        console.error("Erro ao atualizar o paciente:", error);
-        return reply.status(500).send({ message: "Erro interno do servidor" });
+
+        // Verifica se o paciente pertence ao cuidador logado
+        if (paciente.cuidadorId !== request.user.id) {
+            return reply.status(403).send({ message: "Acesso negado: paciente não pertence a você." });
+        }
+
+        const pacienteAtualizado = await prisma.paciente.update({
+            where: { id },
+            data: {
+                nome,
+                dataDeNascimento,
+                sexo,
+                telefone,
+            },
+        });
+
+        return reply.status(200).send(pacienteAtualizado);
+    } catch (error) {
+        console.error("Erro ao editar paciente:", error);
+        return reply.status(500).send({ message: "Erro interno do servidor." });
     }
 }
