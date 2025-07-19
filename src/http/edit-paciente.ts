@@ -6,10 +6,10 @@ import { verifyJWT } from "./middlewares/verify-jwt";
 const prisma = new PrismaClient();
 
 export async function editPaciente(request: FastifyRequest, reply: FastifyReply) {
-    await verifyJWT(request, reply); // Protege a rota com o token JWT
+    await verifyJWT(request, reply);
 
     const paramsSchema = z.object({
-        id: z.string().uuid(), // ID do paciente a ser editado
+        id: z.string().cuid(), 
     });
 
     const bodySchema = z.object({

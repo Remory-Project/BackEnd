@@ -6,6 +6,7 @@ import { deleteCuidador } from "./delete-cuidador";
 import { deletePaciente } from "./delete-paciente";
 import { deleteRelatorio } from "./delete-relatorio";
 import { editPaciente } from "./edit-paciente";
+import { getPaciente } from "./get-paciente";
 import { listPaciente } from "./list-paciente";
 import { loginCuidador } from "./login-cuidador";
 
@@ -23,10 +24,12 @@ export async function routes(app: FastifyInstance) {
 
     app.delete("/delete-paciente/:id", deletePaciente);
 
-    app.delete("/delete-relatorio/:id", deleteRelatorio)
+    app.delete("/delete-relatorio/:id", deleteRelatorio);
 
-    app.delete("/delete-cuidador/:id", deleteCuidador)
+    app.delete("/delete-cuidador/:id", deleteCuidador);
 
-    app.post("/criar-relatorio", criarRelatorio)
+    app.post("/criar-relatorio", criarRelatorio);
 
+    app.get("/paciente/:id", getPaciente);
+    
 }

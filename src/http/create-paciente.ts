@@ -6,7 +6,7 @@ import { verifyJWT } from "./middlewares/verify-jwt";
 const prisma = new PrismaClient();
 
 export async function criarPaciente(request: FastifyRequest, reply: FastifyReply) {
-    await verifyJWT(request, reply); // Protege a rota com token JWT
+    await verifyJWT(request, reply); 
 
     const createPacienteBodySchema = z.object({
         nome: z.string(),
@@ -66,7 +66,7 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
                 alergias,
                 doencaCronica,
                 medicamentosEmUso,
-                cuidadorId: request.user.id // Pega o ID do cuidador logado
+                cuidadorId: request.user.id 
             }
         });
 
