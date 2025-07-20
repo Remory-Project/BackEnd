@@ -31,7 +31,6 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
             return reply.status(404).send({ message: "Paciente não encontrado." });
         }
 
-        // Verifica se o paciente pertence ao cuidador logado
         if (paciente.cuidadorId !== request.user.id) {
             return reply.status(403).send({ message: "Acesso negado: paciente não pertence a você." });
         }

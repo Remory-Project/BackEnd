@@ -1,4 +1,4 @@
 
-import { PrismaClient } from '../generated/prisma'; //Verique o caminho na sua aplicação
+import { PrismaClient } from '../generated/prisma';
 
 export const prisma = new PrismaClient()

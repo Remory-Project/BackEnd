@@ -8,6 +8,7 @@ import { deleteRelatorio } from "./delete-relatorio";
 import { editPaciente } from "./edit-paciente";
 import { getPaciente } from "./get-paciente";
 import { listPaciente } from "./list-paciente";
+import { listRelatorios } from "./list-relatorio";
 import { loginCuidador } from "./login-cuidador";
 
 
@@ -31,5 +32,7 @@ export async function routes(app: FastifyInstance) {
     app.post("/criar-relatorio", criarRelatorio);
 
     app.get("/paciente/:id", getPaciente);
+
+    app.get("/paciente/:id/relatorios", listRelatorios);
     
 }

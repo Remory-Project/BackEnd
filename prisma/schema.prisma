@@ -38,14 +38,23 @@ model Paciente {
   createdAt DateTime @default(now())
   cuidadorId String
   cuidador Cuidador @relation(fields: [cuidadorId], references: [id])
+  relatorios Relatorio[]
 }
 
 model Relatorio {
   id String @id @default(cuid())
-  titulo String
-  descricao String
+  dataVisita String
+  horaVisita String
+  tipoVisita String
+  descricaoVisita String
+  observacoesVisita String?
   medicamentos String
-  dosagem String
-  horarioMedicacao String
+  localizacaoDor String?
+  horarioMeds String?
+  pressaoArterial String?
+  temperatura String?
+  peso String?
   createdAt DateTime @default(now())
+  pacienteId String
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
 }

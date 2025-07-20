@@ -25,7 +25,6 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
         alergias: z.string(),
         doencaCronica: z.string(),
         medicamentosEmUso: z.string(),
-        // cuidadorId foi REMOVIDO do schema
     });
 
     try {

@@ -17,6 +17,9 @@ export async function getPaciente(request: FastifyRequest, reply: FastifyReply) 
 
         const paciente = await prisma.paciente.findUnique({
             where: { id },
+            include: {
+                relatorios: true,
+            },
         });
 
         if (!paciente) {

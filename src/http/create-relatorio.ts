@@ -6,30 +6,55 @@ const prisma = new PrismaClient();
 
 export async function criarRelatorio(request: FastifyRequest, reply: FastifyReply) {
     const createRelatorioBodySchema = z.object({
-        titulo: z.string(),
-        descricao: z.string(),
+        pacienteId: z.string(),
+        dataVisita: z.string(),
+        horaVisita: z.string(),
+        tipoVisita: z.string(),
+        descricaoVisita: z.string(),
+        observacoesVisita: z.string().optional(),
         medicamentos: z.string(),
-        dosagem: z.string(),
-        horarioMedicacao: z.string()
+        localizacaoDor: z.string().optional(),
+        horarioMeds: z.string().optional(),
+        pressaoArterial: z.string().optional(),
+        temperatura: z.string().optional(),
+        peso: z.string().optional(),
     });
 
     try {
         const {
-            titulo,
-            descricao,
+            pacienteId,
+            dataVisita,
+            horaVisita,
+            tipoVisita,
+            descricaoVisita,
+            observacoesVisita,
             medicamentos,
-            dosagem,
-            horarioMedicacao
+            localizacaoDor,
+            horarioMeds,
+            pressaoArterial,
+            temperatura,
+            peso,
         } = createRelatorioBodySchema.parse(request.body);
 
         await prisma.relatorio.create({
             data: {
-                titulo,
-                descricao,
+                dataVisita,
+                horaVisita,
+                tipoVisita,
+                descricaoVisita,
+                observacoesVisita,
                 medicamentos,
-                dosagem,
-                horarioMedicacao
-            }
+                localizacaoDor,
+                horarioMeds,
+                pressaoArterial,
+                temperatura,
+                peso,
+                paciente: {
+                    connect: {
+                        id: pacienteId,
+                    },
+                },
+            },
         });
 
         return reply.status(201).send({ message: "Relatório criado com sucesso." });
