@@ -13,14 +13,26 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
     });
 
     const bodySchema = z.object({
-        nome: z.string().min(1),
-        dataDeNascimento: z.string().min(1),
-        sexo: z.string().min(1),
-        telefone: z.string().min(1),
+        nome: z.string(),
+        dataDeNascimento: z.string(),
+        telefone: z.string(),
+        sexo: z.string(),
+        email: z.string().email(),
+        estadoCivil: z.string(),
+        nomeDaMae: z.string(),
+        nomeDoPai: z.string(),
+        nacionalidade: z.string(),
+        contatoDeEmergencia: z.string(),
+        endereco: z.string(),
+        cep: z.string(),
+        tipoSanguineo: z.string(),
+        alergias: z.string(),
+        doencaCronica: z.string(),
+        medicamentosEmUso: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
-    const { nome, dataDeNascimento, sexo, telefone } = bodySchema.parse(request.body);
+    const { nome, dataDeNascimento, telefone, sexo, email, estadoCivil, nomeDaMae, nomeDoPai, nacionalidade, contatoDeEmergencia, endereco, cep, tipoSanguineo, alergias, doencaCronica, medicamentosEmUso} = bodySchema.parse(request.body);
 
     try {
         const paciente = await prisma.paciente.findUnique({
@@ -40,8 +52,21 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
             data: {
                 nome,
                 dataDeNascimento,
-                sexo,
                 telefone,
+                sexo, 
+                email,
+                estadoCivil, 
+                nomeDaMae, 
+                nomeDoPai, 
+                nacionalidade, 
+                contatoDeEmergencia, 
+                endereco, 
+                cep, 
+                tipoSanguineo, 
+                alergias, 
+                doencaCronica, 
+                medicamentosEmUso
+
             },
         });
 
