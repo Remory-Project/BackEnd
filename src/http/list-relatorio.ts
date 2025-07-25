@@ -34,6 +34,20 @@ export async function listRelatorios(request: FastifyRequest, reply: FastifyRepl
             orderBy: {
                 dataVisita: "desc",
             },
+            select: {
+                id: true,
+                dataVisita: true,
+                horaVisita: true,
+                tipoVisita: true,
+                descricaoVisita: true,
+                observacoesVisita: true,
+                medicamentos: true,
+                localizacaoDor: true,
+                horarioMeds: true,
+                pressaoArterial: true,
+                temperatura: true,
+                peso: true,
+            },
         });
 
         return reply.status(200).send(relatorios);
