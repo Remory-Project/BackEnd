@@ -1,4 +1,7 @@
 import { FastifyInstance } from "fastify";
+import { requestPasswordReset } from "./auth/request-password-reset";
+import { resetPassword } from "./auth/reset-password";
+import { verifyResetCode } from "./auth/verify-reset-code";
 import { createCuidador } from "./create-cuidador";
 import { criarPaciente } from "./create-paciente";
 import { criarRelatorio } from "./create-relatorio";
@@ -34,5 +37,11 @@ export async function routes(app: FastifyInstance) {
     app.get("/paciente/:id", getPaciente);
 
     app.get("/paciente/:id/relatorios", listRelatorios);
+
+    app.post("/auth/forgot-password", requestPasswordReset);
+
+    app.post("/auth/forgot-password/verify", verifyResetCode);
     
+    app.post("/auth/forgot-password/reset", resetPassword);
+
 }

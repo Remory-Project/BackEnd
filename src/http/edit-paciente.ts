@@ -9,7 +9,7 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
     await verifyJWT(request, reply);
 
     const paramsSchema = z.object({
-        id: z.string().cuid(), 
+        id: z.string().cuid(),
     });
 
     const bodySchema = z.object({

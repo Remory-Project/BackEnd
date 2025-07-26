@@ -15,6 +15,7 @@ model Cuidador {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   pacientes  Paciente[]
+  password_reset PasswordReset[]
 }
 
 model Paciente {
@@ -57,4 +58,14 @@ model Relatorio {
   createdAt DateTime @default(now())
   pacienteId String
   paciente Paciente @relation(fields: [pacienteId], references: [id])
+}
+
+model PasswordReset {
+  id String @id @default(cuid())
+  code String
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  cuidadorId String
+  cuidador Cuidador @relation(fields: [cuidadorId], references: [id])
 }
