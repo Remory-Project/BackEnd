@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
+import { enviarCodigoPorEmail } from '../../lib/email-service';
 
 const prisma = new PrismaClient();
 
@@ -24,7 +25,7 @@ export async function requestPasswordReset(request: FastifyRequest, reply: Fasti
     }
 
     const code = generate6DigitCode();
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); 
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
     const reset = await prisma.passwordReset.create({
         data: {
@@ -34,8 +35,8 @@ export async function requestPasswordReset(request: FastifyRequest, reply: Fasti
         },
     });
 
-    console.log(`[DEV] Código de verificação para ${email}: ${code}`);
-
+    await enviarCodigoPorEmail(email, code);
+    
     return reply.status(200).send({
         message: 'Se este e-mail existir, um código foi enviado.',
         resetId: reset.id,

@@ -44,4 +44,5 @@ export async function routes(app: FastifyInstance) {
     
     app.post("/auth/forgot-password/reset", resetPassword);
 
+
 }
