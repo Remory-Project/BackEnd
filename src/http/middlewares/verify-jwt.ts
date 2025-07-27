@@ -13,7 +13,7 @@ export async function verifyJWT(request: FastifyRequest, reply: FastifyReply) {
 
     try {
         const decoded = jwt.verify(token, env.JWT_SECRET) as { sub: string };
-        request.user = { id: decoded.sub }; 
+        request.user = { id: decoded.sub };
     } catch (error) {
         return reply.status(401).send({ message: 'Token inválido' });
     }

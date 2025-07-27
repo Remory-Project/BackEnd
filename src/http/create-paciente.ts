@@ -6,7 +6,7 @@ import { verifyJWT } from "./middlewares/verify-jwt";
 const prisma = new PrismaClient();
 
 export async function criarPaciente(request: FastifyRequest, reply: FastifyReply) {
-    await verifyJWT(request, reply); 
+    await verifyJWT(request, reply);
 
     const createPacienteBodySchema = z.object({
         nome: z.string(),
@@ -24,7 +24,6 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
         tipoSanguineo: z.string(),
         alergias: z.string(),
         doencaCronica: z.string(),
-        medicamentosEmUso: z.string(),
     });
 
     try {
@@ -43,8 +42,7 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
             cep,
             tipoSanguineo,
             alergias,
-            doencaCronica,
-            medicamentosEmUso
+            doencaCronica
         } = createPacienteBodySchema.parse(request.body);
 
         await prisma.paciente.create({
@@ -64,8 +62,7 @@ export async function criarPaciente(request: FastifyRequest, reply: FastifyReply
                 tipoSanguineo,
                 alergias,
                 doencaCronica,
-                medicamentosEmUso,
-                cuidadorId: request.user.id 
+                cuidadorId: request.user.id
             }
         });
 

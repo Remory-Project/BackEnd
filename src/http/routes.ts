@@ -3,13 +3,17 @@ import { requestPasswordReset } from "./auth/request-password-reset";
 import { resetPassword } from "./auth/reset-password";
 import { verifyResetCode } from "./auth/verify-reset-code";
 import { createCuidador } from "./create-cuidador";
+import { criarMedicamentoAgendado } from "./create-medicamento";
 import { criarPaciente } from "./create-paciente";
 import { criarRelatorio } from "./create-relatorio";
 import { deleteCuidador } from "./delete-cuidador";
+import { excluirMedicamento } from "./delete-medicamento";
 import { deletePaciente } from "./delete-paciente";
 import { deleteRelatorio } from "./delete-relatorio";
+import { editMedicamento } from "./edit-medicamento";
 import { editPaciente } from "./edit-paciente";
 import { getPaciente } from "./get-paciente";
+import { listarMedicamentosPorPaciente } from "./list-medicamento";
 import { listPaciente } from "./list-paciente";
 import { listRelatorios } from "./list-relatorio";
 import { loginCuidador } from "./login-cuidador";
@@ -44,5 +48,11 @@ export async function routes(app: FastifyInstance) {
     
     app.post("/auth/forgot-password/reset", resetPassword);
 
+    app.post("/pacientes/:pacienteId/medicamentos", criarMedicamentoAgendado);
+    
+    app.get("/pacientes/:pacienteId/medicamentos", listarMedicamentosPorPaciente);
 
+    app.delete("/medicamentos/:medicamentoId", excluirMedicamento);
+    
+    app.put("/edit-medicamento/:id", editMedicamento)
 }

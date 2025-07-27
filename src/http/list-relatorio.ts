@@ -9,7 +9,7 @@ export async function listRelatorios(request: FastifyRequest, reply: FastifyRepl
     await verifyJWT(request, reply);
 
     const paramsSchema = z.object({
-        id: z.string(), 
+        id: z.string(),
     });
 
     try {
@@ -41,9 +41,7 @@ export async function listRelatorios(request: FastifyRequest, reply: FastifyRepl
                 tipoVisita: true,
                 descricaoVisita: true,
                 observacoesVisita: true,
-                medicamentos: true,
                 localizacaoDor: true,
-                horarioMeds: true,
                 pressaoArterial: true,
                 temperatura: true,
                 peso: true,

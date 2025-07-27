@@ -28,11 +28,10 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
         tipoSanguineo: z.string(),
         alergias: z.string(),
         doencaCronica: z.string(),
-        medicamentosEmUso: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
-    const { nome, dataDeNascimento, telefone, sexo, email, estadoCivil, nomeDaMae, nomeDoPai, nacionalidade, contatoDeEmergencia, endereco, cep, tipoSanguineo, alergias, doencaCronica, medicamentosEmUso} = bodySchema.parse(request.body);
+    const { nome, dataDeNascimento, telefone, sexo, email, estadoCivil, nomeDaMae, nomeDoPai, nacionalidade, contatoDeEmergencia, endereco, cep, tipoSanguineo, alergias, doencaCronica} = bodySchema.parse(request.body);
 
     try {
         const paciente = await prisma.paciente.findUnique({
@@ -53,20 +52,18 @@ export async function editPaciente(request: FastifyRequest, reply: FastifyReply)
                 nome,
                 dataDeNascimento,
                 telefone,
-                sexo, 
+                sexo,
                 email,
-                estadoCivil, 
-                nomeDaMae, 
-                nomeDoPai, 
-                nacionalidade, 
-                contatoDeEmergencia, 
-                endereco, 
-                cep, 
-                tipoSanguineo, 
-                alergias, 
-                doencaCronica, 
-                medicamentosEmUso
-
+                estadoCivil,
+                nomeDaMae,
+                nomeDoPai,
+                nacionalidade,
+                contatoDeEmergencia,
+                endereco,
+                cep,
+                tipoSanguineo,
+                alergias,
+                doencaCronica
             },
         });
 
