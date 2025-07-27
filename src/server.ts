@@ -1,4 +1,8 @@
 import { app } from './app';
+import { startMedicationReminderJob } from './jobs/medication-reminder';
+
+
+startMedicationReminderJob();
 
 app.listen({ port: 3333, host: '127.0.0.1' }, (err, address) => {
     if (err) {
