@@ -1,57 +1,90 @@
+# BackEnd
 🏁 REMORY
 
-Breve descrição do que o seu projeto faz.
+    Remory é uma plataforma web voltada para o auxilio dos cuidadores, de modo que os permitam cadastrar seus pacientes e seus medicamentos. O sistema contará com uma ferramenta de notificações, para recordar sobre medicamentos que estão próximos do horário de consumo
+
 🧑‍💻 Membros da equipe e Orientador
 
-Pedro Renan - 567951 - Análise e Desenvolvimento de Sistemas
-Lucas Lima -      - Análise e Desenvolvimento de Sistemas
-Samuel Heitor -     - Análise e Desenvolvimento de Sistemas
-João Lucas -         - Análise e Desenvolvimento de Sistemas
-
-Prof. Orientador : Anderson Uchôa
+    570569 - Lucas Lima - Analise e Desenvolvimento de Sistemas
+    567951 - Pedro Renan - Analise e Desenvolvimento de Sistemas
+    571166 - João Lucas - Analise e Desenvolvimento de Sistemas
+    Orientador - Anderson Uchoa - Analise e Desenvolvimento de Sistemas
 
 🧑‍🤝‍🧑 Papéis ou tipos de usuário da aplicação
 
-Informe aqui os tipos de usuário que irão interagir com a aplicação. Ex: administrador, locador, locatario, usuário não logado.
+    Nosso sistema se voltará para os cuidadores, onde ele terá um registro pessoal dentro da plataforma (login)
 
-    Tenha em mente que obrigatoriamente a aplicação deve possuir funcionalidades acessíveis a todos os tipos de usuário e outra funcionalidades restritas a certos tipos de usuários.
 
 🗓️ Entidades ou tabelas do sistema
 
-Liste as principais entidades do sistema.
+    Cuidador
+    Paciente
+    Relatorio
+    Medicamento
+
 🚩 Principais funcionalidades da aplicação
 
-Descreve ou liste brevemente as principais funcionalidades da aplicação que será desenvolvida. Destaque a funcionalidades que serão acessévies a todos os usuários e aquelas restriras a usuários logados.
+    Responsividade entre plataformas
+    Cadastro no sistema
+    login do cuidador
+    Cadastro de pacientes (com o login de cuidador)
+    Cadastrar medicamentos (login do cuidador)
+    criação de relatórios de visitas
+    envio de notificações para notificar sobre algum remédio que esteja próximo de ser consumido.
 
 ⚠️⚠️⚠️ As informações a seguir devem ser enviadas juntamente com a versão final do projeto. ⚠️⚠️⚠️
 🖥️ Tecnologias e frameworks utilizados
 
-Frontend:
-HTML
-CSS
+Frontend
 
-Backend:
-Node.js
-Typescript
-Prisma
-Fastify
-Zod
+    HTML
+    CSS
 
+Backend
+
+    Node.js
+    Typescript
+    Prisma
+    Fastify
+    Zod
+    Resend
 
 :shipit: Operações implementadas para cada entidade da aplicação
-Entidade 	Criação 	Leitura 	Atualização 	Remoção
-Entidade 1 	X 	X 		X
-Entidade 2 	X 		X 	X
-Entidade 3 	X 			
+
+    | Entidade  | Criação | Leitura | Atualização | Remoção |
+    |-----------|---------|---------|-------------|---------|
+    | Cuidador  | X       |         |             | X       |
+    | Paciente  | X       | X       | X           | X       |
+    | Relatorio | X       | X       | X           | X       |
+
 
     Lembre-se que é necessário implementar o CRUD de pelo menos duas entidades.
 
 :neckbeard: Rotas da API REST utilizadas
-Método HTTP 	URL
-GET 	api/entidade1/
-POST 	api/entidade2
+
+    | Método  | Rota                                |
+    |---------|-------------------------------------|
+    | POST    | /criar/paciente                     |
+    | GET     | /lista                              |
+    | PUT     | /edit-paciente/:id                  |
+    | DELETE  | /delete-paciente/:id                |
+    | POST    | /login                              |
+    | POST    | /criar-cuidador                     |
+    | DELETE  | /delete-cuidador/:id                |
+    | PUT     | /edit-cuidador/:id                  |
+    | POST    | /criar-relatorio                    |
+    | GET     | /paciente/:id/relatorios            |
+    | POST    | /auth/forgot-password               |
+    | POST    | /auth/forgot-password/verify        |
+    | POST    | /auth/forgot-password/reset         |
+    | POST    | /pacientes/:pacienteId/medicamentos |
+    | GET     | /pacientes/:pacienteId/medicamentos |
+    | DELETE  | /medicamentos/:id                   |
+    | PUT     | /edit-medicamento/:id               |
+
+
 Documentação
 
-    Documento de visão do projeto
-    Regras gerais da disciplina
+    [Documentação do Projeto](documentação/Documento_visao_Remory.pdf)
+
     [Apresentação do Projeto] - Vídeo a ser criado
