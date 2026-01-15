@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cuidador {
+  id          String   @id @default(cuid())
+  nome       String
+  email      String @unique
+  password_hash String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  pacientes  Paciente[]
+  password_reset PasswordReset[]
+}
+
+model Paciente {
+  id String @id @default(cuid())
+  nome String
+  dataDeNascimento String
+  telefone String
+  sexo String
+  email String @unique
+  estadoCivil String
+  nomeDaMae String
+  nomeDoPai String
+  nacionalidade String
+  contatoDeEmergencia String
+  endereco String
+  cep String
+  tipoSanguineo String
+  alergias String
+  doencaCronica String
+  createdAt DateTime @default(now())
+  cuidadorId String
+  cuidador Cuidador @relation(fields: [cuidadorId], references: [id])
+  relatorios Relatorio[]
+  medicamentosAgendados MedicamentoAgendado[]
+}
+
+model Relatorio {
+  id String @id @default(cuid())
+  dataVisita String
+  horaVisita String
+  tipoVisita String
+  descricaoVisita String
+  observacoesVisita String?
+  localizacaoDor String?
+  pressaoArterial String?
+  temperatura String?
+  peso String?
+  createdAt DateTime @default(now())
+  pacienteId String
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
+}
+
+model PasswordReset {
+  id String @id @default(cuid())
+  code String
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  cuidadorId String
+  cuidador Cuidador @relation(fields: [cuidadorId], references: [id])
+}
+
+model MedicamentoAgendado {
+  id         String   @id @default(cuid())
+  nome       String
+  descricao  String?
+  pacienteId String
+  paciente   Paciente @relation(fields: [pacienteId], references: [id])
+  horarios   HorarioMedicamento[]
+  createdAt  DateTime @default(now())
+}
+
+model HorarioMedicamento {
+  id             String   @id @default(cuid())
+  hora           Int
+  minuto         Int
+  medicamentoId  String
+  medicamento    MedicamentoAgendado @relation(fields: [medicamentoId], references: [id])
+}
